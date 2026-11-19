@@ -1,0 +1,92 @@
+/* Eddie K – ny startsida. Används både av prototypen (index.html) och Shopify-sektionen. */
+.ek{--ek-bg:#0b0b0c;--ek-surface:#151517;--ek-line:#2a2a2e;--ek-text:#f4f4f2;--ek-mute:#a6a6ab;--ek-red:#e5262d;--ek-red-d:#c01c22;--ek-gold:#d9a93a;
+  --ek-gut:clamp(16px,4vw,48px);--ek-max:1320px;
+  background:var(--ek-bg);color:var(--ek-text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
+.ek *,.ek *::before,.ek *::after{box-sizing:border-box}
+.ek img{display:block;max-width:100%}
+.ek a{color:inherit;text-decoration:none}
+.ek-wrap{max-width:var(--ek-max);margin:0 auto;padding:0 var(--ek-gut)}
+.ek-eyebrow{font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ek-red);font-weight:700;margin:0 0 .75rem}
+.ek-h2{font-size:clamp(1.6rem,3.2vw,2.6rem);line-height:1.05;font-weight:900;letter-spacing:-.01em;text-transform:uppercase;margin:0}
+.ek-btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;min-height:48px;padding:.85rem 1.75rem;border-radius:2px;font-weight:800;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;border:2px solid var(--ek-red);background:var(--ek-red);color:#fff;cursor:pointer;transition:background .2s,transform .2s,border-color .2s}
+.ek-btn:hover{background:var(--ek-red-d);border-color:var(--ek-red-d);transform:translateY(-2px)}
+.ek-btn--ghost{background:transparent;border-color:#fff;color:#fff}
+.ek-btn--ghost:hover{background:#fff;border-color:#fff;color:#000}
+.ek :focus-visible{outline:3px solid var(--ek-gold);outline-offset:3px}
+
+/* Hero */
+.ek-hero{position:relative;min-height:min(86vh,760px);display:grid;align-items:end;overflow:hidden;isolation:isolate}
+.ek-hero__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 25%;z-index:-2}
+.ek-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(11,11,12,.25) 0%,rgba(11,11,12,.55) 55%,var(--ek-bg) 100%),linear-gradient(90deg,rgba(11,11,12,.75) 0%,transparent 65%)}
+.ek-hero__body{padding:clamp(48px,10vw,120px) 0 clamp(40px,6vw,72px);max-width:760px}
+.ek-hero h1{font-size:clamp(2.6rem,8vw,6rem);line-height:.92;font-weight:900;text-transform:uppercase;letter-spacing:-.02em;margin:0 0 1.25rem}
+.ek-hero h1 em{font-style:normal;color:var(--ek-red)}
+.ek-hero p{font-size:clamp(1rem,1.6vw,1.2rem);color:#d8d8dc;max-width:46ch;margin:0 0 2rem}
+.ek-hero__cta{display:flex;flex-wrap:wrap;gap:.75rem}
+
+/* Marquee */
+.ek-marq{background:var(--ek-red);color:#fff;overflow:hidden;white-space:nowrap;border-block:1px solid var(--ek-red-d)}
+.ek-marq__track{display:inline-flex;gap:3rem;padding:.7rem 0;animation:ek-marq 28s linear infinite;font-weight:900;letter-spacing:.14em;text-transform:uppercase;font-size:.85rem}
+@keyframes ek-marq{to{transform:translateX(-50%)}}
+
+/* Section */
+.ek-sec{padding:clamp(48px,8vw,104px) 0}
+.ek-sec__head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:1rem;margin-bottom:clamp(24px,4vw,44px)}
+.ek-link{font-weight:700;font-size:.85rem;letter-spacing:.1em;text-transform:uppercase;border-bottom:2px solid var(--ek-red);padding-bottom:2px}
+
+/* Produktgrid */
+.ek-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(12px,2vw,24px);list-style:none;margin:0;padding:0}
+.ek-card{position:relative;display:flex;flex-direction:column;background:var(--ek-surface);border:1px solid var(--ek-line);border-radius:4px;overflow:hidden;transition:border-color .2s,transform .25s}
+.ek-card:hover{border-color:var(--ek-red);transform:translateY(-4px)}
+.ek-card__media{position:relative;aspect-ratio:4/5;background:#fff;overflow:hidden}
+.ek-card__media img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;padding:6%;transition:opacity .3s,transform .5s}
+.ek-card__media img+img{opacity:0}
+.ek-card:hover .ek-card__media img:first-child{transform:scale(1.04)}
+.ek-card:hover .ek-card__media img+img{opacity:1}
+.ek-card__badge{position:absolute;top:10px;left:10px;z-index:2;background:var(--ek-gold);color:#000;font-size:.68rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;padding:.3rem .6rem;border-radius:2px}
+.ek-card__body{padding:1rem 1rem 1.15rem;display:flex;flex-direction:column;gap:.25rem;flex:1}
+.ek-card__type{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ek-mute)}
+.ek-card__title{font-size:1rem;font-weight:800;line-height:1.25;margin:0}
+.ek-card__title a::after{content:"";position:absolute;inset:0;z-index:1}
+.ek-card__price{margin-top:auto;padding-top:.6rem;font-weight:800;font-size:1.05rem}
+.ek-card__price s{color:var(--ek-mute);font-weight:500;margin-right:.4rem}
+
+/* Limited */
+.ek-lim{background:linear-gradient(135deg,#17120a,#0b0b0c 60%);border-block:1px solid var(--ek-line)}
+.ek-lim__grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,6vw,80px);align-items:center}
+.ek-lim__img{background:#000;border:1px solid var(--ek-gold);border-radius:4px;overflow:hidden;box-shadow:0 0 80px rgba(217,169,58,.15)}
+.ek-lim__img img{width:100%;height:auto;aspect-ratio:1/1;object-fit:contain;background:#fff}
+.ek-lim .ek-eyebrow{color:var(--ek-gold)}
+.ek-lim p{color:#cfcfd3;max-width:46ch;margin:1rem 0 1.5rem}
+.ek-lim__price{font-size:2rem;font-weight:900;margin-bottom:1.5rem;display:block}
+.ek-btn--gold{background:var(--ek-gold);border-color:var(--ek-gold);color:#000}
+.ek-btn--gold:hover{background:#f0c14e;border-color:#f0c14e}
+
+/* Förtroende */
+.ek-trust{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,40px);list-style:none;margin:0;padding:0}
+.ek-trust li{display:flex;gap:1rem;align-items:flex-start}
+.ek-trust svg{flex:none;width:32px;height:32px;stroke:var(--ek-red);fill:none;stroke-width:1.8}
+.ek-trust strong{display:block;font-size:.95rem;text-transform:uppercase;letter-spacing:.06em}
+.ek-trust span{color:var(--ek-mute);font-size:.9rem}
+
+/* Nyhetsbrev */
+.ek-news{background:var(--ek-surface);border-top:1px solid var(--ek-line)}
+.ek-news__inner{display:grid;grid-template-columns:1fr 1fr;gap:clamp(24px,5vw,64px);align-items:center}
+.ek-news p{color:var(--ek-mute);margin:.75rem 0 0}
+.ek-form{display:flex;gap:.5rem;flex-wrap:wrap}
+.ek-form label{flex:1 0 100%;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ek-mute)}
+.ek-form input[type=email]{flex:1 1 220px;min-height:48px;padding:.75rem 1rem;background:var(--ek-bg);border:2px solid var(--ek-line);border-radius:2px;color:#fff;font:inherit}
+.ek-form input[type=email]::placeholder{color:#7d7d83}
+.ek-form input[type=email]:focus{border-color:var(--ek-red);outline:none}
+.ek-form__msg{flex:1 0 100%;font-size:.85rem;color:var(--ek-gold);margin:0}
+
+@media (max-width:1000px){.ek-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:760px){
+  .ek-lim__grid,.ek-news__inner{grid-template-columns:1fr}
+  .ek-trust{grid-template-columns:1fr}
+  .ek-hero{min-height:78vh}
+  .ek-hero__cta .ek-btn{flex:1 1 100%}
+  .ek-card__body{padding:.8rem}
+  .ek-card__title{font-size:.9rem}
+}
+@media (prefers-reduced-motion:reduce){.ek-marq__track{animation:none}.ek-card,.ek-btn,.ek-card__media img{transition:none}}

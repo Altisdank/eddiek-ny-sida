@@ -1,0 +1,189 @@
+{%- comment -%}
+  Eddie K – ny startsida (en sektion, allt redigerbart i temaredigeraren).
+  Lägg filen i temats /sections och assets/eddiek.css i /assets.
+{%- endcomment -%}
+{{ 'eddiek.css' | asset_url | stylesheet_tag }}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+<div class="ek">
+  {%- comment -%} HERO {%- endcomment -%}
+  <section class="ek-hero" aria-labelledby="ek-hero-{{ section.id }}">
+    {%- if section.settings.hero_image != blank -%}
+      {{ section.settings.hero_image | image_url: width: 2000 | image_tag: class: 'ek-hero__img', widths: '800, 1200, 1600, 2000', sizes: '100vw', loading: 'eager', fetchpriority: 'high', alt: section.settings.hero_image.alt | default: section.settings.hero_title }}
+    {%- endif -%}
+    <div class="ek-wrap"><div class="ek-hero__body">
+      {%- if section.settings.hero_eyebrow != blank -%}<p class="ek-eyebrow">{{ section.settings.hero_eyebrow }}</p>{%- endif -%}
+      <h1 id="ek-hero-{{ section.id }}">{{ section.settings.hero_title }}</h1>
+      {%- if section.settings.hero_text != blank -%}<p>{{ section.settings.hero_text }}</p>{%- endif -%}
+      <div class="ek-hero__cta">
+        {%- if section.settings.cta1_label != blank -%}<a class="ek-btn" href="{{ section.settings.cta1_link | default: collections.all.url }}">{{ section.settings.cta1_label }}</a>{%- endif -%}
+        {%- if section.settings.cta2_label != blank -%}<a class="ek-btn ek-btn--ghost" href="{{ section.settings.cta2_link | default: '#ek-limited' }}">{{ section.settings.cta2_label }}</a>{%- endif -%}
+      </div>
+    </div></div>
+  </section>
+
+  {%- if section.settings.marquee != blank -%}
+    {%- assign items = section.settings.marquee | split: '|' -%}
+    <div class="ek-marq" aria-hidden="true"><div class="ek-marq__track">
+      {%- for n in (1..2) -%}{%- for it in items -%}<span>{{ it | strip }}</span><span>★</span>{%- endfor -%}{%- endfor -%}
+    </div></div>
+  {%- endif -%}
+
+  {%- comment -%} PRODUKTER {%- endcomment -%}
+  {%- assign coll = section.settings.collection -%}
+  <section class="ek-sec" id="ek-collection" aria-labelledby="ek-col-{{ section.id }}">
+    <div class="ek-wrap">
+      <div class="ek-sec__head">
+        <div>
+          {%- if section.settings.col_eyebrow != blank -%}<p class="ek-eyebrow">{{ section.settings.col_eyebrow }}</p>{%- endif -%}
+          <h2 class="ek-h2" id="ek-col-{{ section.id }}">{{ section.settings.col_title }}</h2>
+        </div>
+        <a class="ek-link" href="{{ coll.url | default: collections.all.url }}">{{ section.settings.col_link_label }}</a>
+      </div>
+      <ul class="ek-grid">
+        {%- assign source = coll.products | default: collections.all.products -%}
+        {%- for product in source limit: section.settings.product_count -%}
+          <li class="ek-card">
+            <div class="ek-card__media">
+              {%- if product.compare_at_price > product.price -%}<span class="ek-card__badge">Rea</span>
+              {%- elsif product.available == false -%}<span class="ek-card__badge">Slutsåld</span>{%- endif -%}
+              {%- if product.featured_image -%}
+                {{ product.featured_image | image_url: width: 700 | image_tag: widths: '350, 500, 700', sizes: '(min-width:1000px) 25vw, 50vw', loading: 'lazy', alt: product.featured_image.alt | default: product.title }}
+              {%- endif -%}
+              {%- if product.images[1] -%}
+                {{ product.images[1] | image_url: width: 700 | image_tag: widths: '350, 500, 700', sizes: '(min-width:1000px) 25vw, 50vw', loading: 'lazy', alt: '' }}
+              {%- endif -%}
+            </div>
+            <div class="ek-card__body">
+              {%- if product.type != blank -%}<span class="ek-card__type">{{ product.type }}</span>{%- endif -%}
+              <h3 class="ek-card__title"><a href="{{ product.url }}">{{ product.title | split: ' – ' | first }}</a></h3>
+              <span class="ek-card__price">
+                {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money_without_trailing_zeros }}</s>{%- endif -%}
+                {{ product.price | money_without_trailing_zeros }}
+              </span>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+
+  {%- comment -%} LIMITED EDITION {%- endcomment -%}
+  {%- assign lim = section.settings.limited_product -%}
+  {%- if lim != blank and section.settings.show_limited -%}
+  <section class="ek-sec ek-lim" id="ek-limited" aria-labelledby="ek-lim-{{ section.id }}">
+    <div class="ek-wrap ek-lim__grid">
+      <div class="ek-lim__img">
+        {%- if lim.featured_image -%}{{ lim.featured_image | image_url: width: 1000 | image_tag: widths: '500, 800, 1000', sizes: '(min-width:760px) 45vw, 100vw', loading: 'lazy', alt: lim.featured_image.alt | default: lim.title }}{%- endif -%}
+      </div>
+      <div>
+        <p class="ek-eyebrow">{{ section.settings.lim_eyebrow }}</p>
+        <h2 class="ek-h2" id="ek-lim-{{ section.id }}">{{ section.settings.lim_title }}</h2>
+        <p>{{ section.settings.lim_text }}</p>
+        <span class="ek-lim__price">{{ lim.price | money_without_trailing_zeros }}</span>
+        <a class="ek-btn ek-btn--gold" href="{{ lim.url }}">{{ section.settings.lim_cta }}</a>
+      </div>
+    </div>
+  </section>
+  {%- endif -%}
+
+  {%- comment -%} FÖRTROENDE (block) {%- endcomment -%}
+  {%- if section.blocks.size > 0 -%}
+  <section class="ek-sec" aria-label="Köpinformation"><div class="ek-wrap"><ul class="ek-trust">
+    {%- for block in section.blocks -%}
+      <li {{ block.shopify_attributes }}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          {%- case block.settings.icon -%}
+            {%- when 'box' -%}<path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7"/>
+            {%- when 'card' -%}<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/>
+            {%- else -%}<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/>
+          {%- endcase -%}
+        </svg>
+        <div><strong>{{ block.settings.title }}</strong><span>{{ block.settings.text }}</span></div>
+      </li>
+    {%- endfor -%}
+  </ul></div></section>
+  {%- endif -%}
+
+  {%- comment -%} NYHETSBREV (Shopifys kundformulär → hamnar i Kunder med e-postmarknadsföring) {%- endcomment -%}
+  {%- if section.settings.show_news -%}
+  <section class="ek-sec ek-news" id="ek-news" aria-labelledby="ek-news-{{ section.id }}"><div class="ek-wrap ek-news__inner">
+    <div>
+      <p class="ek-eyebrow">Nyhetsbrev</p>
+      <h2 class="ek-h2" id="ek-news-{{ section.id }}">{{ section.settings.news_title }}</h2>
+      <p>{{ section.settings.news_text }}</p>
+    </div>
+    {%- form 'customer', class: 'ek-form' -%}
+      <input type="hidden" name="contact[tags]" value="newsletter">
+      <label for="ek-mail-{{ section.id }}">E-postadress</label>
+      <input id="ek-mail-{{ section.id }}" type="email" name="contact[email]" required autocomplete="email" placeholder="namn@exempel.se" value="{{ form.email }}">
+      <button class="ek-btn" type="submit">Prenumerera</button>
+      {%- if form.posted_successfully? -%}<p class="ek-form__msg" role="status">Tack! Du är nu med på listan.</p>{%- endif -%}
+      {%- if form.errors -%}<p class="ek-form__msg" role="alert">{{ form.errors | default_errors }}</p>{%- endif -%}
+    {%- endform -%}
+  </div></section>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Eddie K startsida",
+  "tag": "section",
+  "class": "ek-section",
+  "settings": [
+    {"type":"header","content":"Hero"},
+    {"type":"image_picker","id":"hero_image","label":"Bakgrundsbild"},
+    {"type":"text","id":"hero_eyebrow","label":"Överrubrik","default":"Official Fläsksvål Collection"},
+    {"type":"text","id":"hero_title","label":"Rubrik","default":"Här ta en fläsksvål"},
+    {"type":"textarea","id":"hero_text","label":"Text","default":"Hoodies, tröjor, kepsar och mer – direkt från Eddie K."},
+    {"type":"text","id":"cta1_label","label":"Knapp 1 – text","default":"Shoppa kollektionen"},
+    {"type":"url","id":"cta1_link","label":"Knapp 1 – länk"},
+    {"type":"text","id":"cta2_label","label":"Knapp 2 – text","default":"Limited Edition"},
+    {"type":"url","id":"cta2_link","label":"Knapp 2 – länk"},
+    {"type":"text","id":"marquee","label":"Löpande remsa (separera med |)","default":"Official Fläsksvål Collection | Eddie K Merch | Limited Edition – 25 ex | Här ta en fläsksvål"},
+
+    {"type":"header","content":"Produkter"},
+    {"type":"text","id":"col_eyebrow","label":"Överrubrik","default":"Kollektionen"},
+    {"type":"text","id":"col_title","label":"Rubrik","default":"Välj din favorit"},
+    {"type":"text","id":"col_link_label","label":"Länktext","default":"Se alla produkter"},
+    {"type":"collection","id":"collection","label":"Kollektion (tom = alla produkter)"},
+    {"type":"range","id":"product_count","label":"Antal produkter","min":4,"max":12,"step":4,"default":8},
+
+    {"type":"header","content":"Limited Edition"},
+    {"type":"checkbox","id":"show_limited","label":"Visa sektionen","default":true},
+    {"type":"product","id":"limited_product","label":"Produkt"},
+    {"type":"text","id":"lim_eyebrow","label":"Överrubrik","default":"Limited Edition"},
+    {"type":"text","id":"lim_title","label":"Rubrik","default":"Endast 25 exemplar"},
+    {"type":"textarea","id":"lim_text","label":"Text","default":"En numrerad canvas för väggen. När de 25 är slut kommer den inte tillbaka."},
+    {"type":"text","id":"lim_cta","label":"Knapptext","default":"Köp canvasen"},
+
+    {"type":"header","content":"Nyhetsbrev"},
+    {"type":"checkbox","id":"show_news","label":"Visa nyhetsbrev","default":true},
+    {"type":"text","id":"news_title","label":"Rubrik","default":"Missa inga nya drops"},
+    {"type":"textarea","id":"news_text","label":"Text","default":"Få besked först när nya produkter och limiterade upplagor släpps."}
+  ],
+  "blocks": [
+    {
+      "type": "trust",
+      "name": "Förtroende-punkt",
+      "limit": 4,
+      "settings": [
+        {"type":"select","id":"icon","label":"Ikon","default":"box","options":[{"value":"box","label":"Paket"},{"value":"card","label":"Kort"},{"value":"return","label":"Retur"}]},
+        {"type":"text","id":"title","label":"Rubrik","default":"Tryckt på beställning"},
+        {"type":"text","id":"text","label":"Text","default":"Varje plagg tillverkas efter din order."}
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Eddie K startsida",
+      "blocks": [
+        {"type":"trust","settings":{"icon":"box","title":"Tryckt på beställning","text":"Varje plagg tillverkas efter din order."}},
+        {"type":"trust","settings":{"icon":"card","title":"Säker betalning","text":"Kort, Klarna och mer via Shopify Checkout."}},
+        {"type":"trust","settings":{"icon":"return","title":"Enkla villkor","text":"Läs retur- och leveransvillkor innan köp."}}
+      ]
+    }
+  ]
+}
+{% endschema %}
